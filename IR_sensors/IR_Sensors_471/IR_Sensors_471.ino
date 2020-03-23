@@ -25,6 +25,7 @@ void steering_setup();
 void st_sweep();
 
 
+
 void setup()
 {
   Serial.begin(9600);
@@ -36,8 +37,8 @@ void loop()
 {
  ir_read();
  ir_print();
- st_sweep();
- delay(2000);
+ //st_sweep();
+ delay(500);
 }
 
 void ir_setup()
