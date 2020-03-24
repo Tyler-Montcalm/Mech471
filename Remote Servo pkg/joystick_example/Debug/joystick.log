@@ -1,0 +1,9 @@
+﻿Build started 20/03/2020 6:59:48 PM.
+     1>Project "D:\Documents\University\MECH 471 Microcontrollers\Code\Remote Servo pkg\joystick_example\joystick.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         joystick.vcxproj -> D:\Documents\University\MECH 471 Microcontrollers\Code\Remote Servo pkg\joystick_example\.\Debug\Joystick.exe
+     1>Done Building Project "D:\Documents\University\MECH 471 Microcontrollers\Code\Remote Servo pkg\joystick_example\joystick.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.04

@@ -1,0 +1,3 @@
+remove vision lib
+
+update sample rate to 60 fps ?
