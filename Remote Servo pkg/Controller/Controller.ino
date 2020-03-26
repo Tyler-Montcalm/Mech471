@@ -91,15 +91,14 @@ void loop() {
 ISR(TIMER1_COMPA_vect)
 {
   PORTB &= ~(BIT(1)); //Ending my servo signal
-  TCNT1 = 65535 - (40000 - motor_ticks);
-  //PORTB |= BIT(2);    //Starting my motor signal
+  PORTB |= BIT(2);    //Starting my motor signal
 }
 
-/*ISR(TIMER1_COMPB_vect)
+ISR(TIMER1_COMPB_vect)
 {
   PORTB &= ~(BIT(2));                     //Ending my motor signal
   TCNT1 = 65535 - (40000 - motor_ticks);  //Ensuring my overflow interrupt occurs at 20ms after the servo pulse
-}*/
+}
 
 ISR(TIMER1_OVF_vect)
 {
