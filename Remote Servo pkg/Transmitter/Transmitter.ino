@@ -20,7 +20,7 @@ void setup()
   //set the address
   radio.openWritingPipe(address);
 
-  radio.setPALevel(RF24_PA_MAX);
+  radio.setPALevel(RF24_PA_MIN);
   
   //Set module as transmitter
   radio.stopListening();

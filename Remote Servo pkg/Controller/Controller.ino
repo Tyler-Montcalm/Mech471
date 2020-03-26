@@ -9,7 +9,7 @@
 #include <RF24.h>
 
 volatile long int servo_ticks = 3000;   //Global variable used to set OCR1A
-volatile long int motor_ticks = servo_ticks + 3000;   //Global variable used to set OCR1B and TCNT1
+volatile long int motor_ticks = 6000;   //Global variable used to set OCR1B and TCNT1
 
 //create an RF24 object
 RF24 radio(7, 8);  // CE, CSN
@@ -36,7 +36,7 @@ void setup() {
   //set the address
   radio.openReadingPipe(0, address);
 
-  radio.setPALevel(RF24_PA_MAX);
+  radio.setPALevel(RF24_PA_MIN);
   
   //Set module as receiver
   radio.startListening();
@@ -54,11 +54,11 @@ void setup() {
   TIMSK1 = 0;
   TIMSK1 |= BIT(OCIE1B) | BIT(OCIE1A) | BIT(TOIE1);
   
-  //Setting my compare match value for B to 40000 ticks (20ms)
-  OCR1B = 40000;
+  //Setting my compare match value for B to servo_ticks (initially 3000 ticks or 1.5ms)
+  OCR1A = servo_ticks;
 
-  //Setting my compare match value for A arbitratily to 3000 (1.5ms)
-  OCR1A = 3000;
+  //Setting my compare match value for A arbitratily
+  OCR1B = motor_ticks;
 
   //Clearing interrupt flags
   TIFR1 |= BIT(OCF1B) | BIT(OCF1A) | BIT(TOV1);
@@ -83,24 +83,23 @@ void loop() {
   }
 
   //Setting my global variable to read the number of clock ticks until my next compare match
-  servo_ticks = (2*q[0]) + 3000; //May want to move inside if{}. ATOMIC ACCESS!
+  servo_ticks = (q[0]) + 3000; //May want to move inside if{}. ATOMIC ACCESS!
   motor_ticks = servo_ticks + (3000 + q[2]);
 
 }
 
 ISR(TIMER1_COMPA_vect)
 {
-  //PORTB 1 = pin D9 (servo)
-  //PORTB 2 = pin D10 (motor)
   PORTB &= ~(BIT(1)); //Ending my servo signal
-  PORTB |= BIT(2);    //Starting my motor signal
+  TCNT1 = 65535 - (40000 - motor_ticks);
+  //PORTB |= BIT(2);    //Starting my motor signal
 }
 
-ISR(TIMER1_COMPB_vect)
+/*ISR(TIMER1_COMPB_vect)
 {
-  PORTB &= ~(BIT(2));               //Ending my motor signal
-  TCNT1 = 65535 - (40000 - OCR1B);  //Ensuring my overflow interrupt occurs at 20ms after the servo pulse
-}
+  PORTB &= ~(BIT(2));                     //Ending my motor signal
+  TCNT1 = 65535 - (40000 - motor_ticks);  //Ensuring my overflow interrupt occurs at 20ms after the servo pulse
+}*/
 
 ISR(TIMER1_OVF_vect)
 {
