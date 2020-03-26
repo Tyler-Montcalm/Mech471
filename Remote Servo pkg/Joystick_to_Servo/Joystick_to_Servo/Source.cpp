@@ -20,7 +20,7 @@ int main()
 	const int NMAX = 64;
 	char buffer[NMAX];
 	int speed = 1;
-	int size = 4;	//Size of package being sent is 1 int of 4 bytes.
+	int size = 12;	//Size of package being sent is 3 ints of 4 bytes.
 
 	/* SETTING UP SHARED MEMORY FOR USE WITH THE JOYSTICK */
 	int n = 1000;
@@ -39,7 +39,7 @@ int main()
 
 		serial_send(p_smem, size, h2);
 
-		cout << p_int[0] << "\n";
+		cout << p_int[0] << "\t" << p_int[2] << "\n";
 
 		//Should make something to receive an error message
 
