@@ -8,6 +8,11 @@ int ir_1=4;
 int ir_2=5;
 int ir_3=6;
 int st_pin=3;
+int slow_back=10;
+int slow_forward=10;
+int left=-30;
+int right=+30;
+int middle=0;
 
 ////////GLOBAL VARIABLES IR////////
 int sensorVal1;
@@ -23,7 +28,7 @@ void ir_read();
 void ir_print();
 void steering_setup();
 void st_sweep();
-
+void ir_auto();
 
 
 void setup()
@@ -37,8 +42,120 @@ void loop()
 {
  ir_read();
  ir_print();
+ ir_auto();
  //st_sweep();
  delay(500);
+}
+
+void ir_auto()
+{
+  //scenarios:
+  // 1: 000 // stuck in a dead end.. reverse a bunch and turn right DONE
+  // 2: 001 // reverse and turn right DONE
+  // 3: 010 // stuck in a tunnel.. reverse a bunch and turn right DONE
+  // 4: 011 // reverse out and go right DONE
+  // 5: 100 // reverse and turn left DONE
+  // 6: 101 // reverse and turn left DONE
+  // 7: 110 // reverse out and go left DONE
+  // 8: 111 // continue as normal DONE
+  
+   //scenario 1 stuck in a dead end.. reverse a bunch and turn right
+  if(sensorVal1==0 && sensorVal2==0 && sensorVal3==0) 
+  {
+    Serial.println("scenario 1");
+    my_servo(middle); 
+    my_motor(slow_back);
+    delay(1000);
+    my_servo(right);
+    my_motor(slow_forward);
+    delay(500);
+    my_servo(middle);
+  }
+  
+  //scenario 2 reverse and turn right
+  if(sensorVal1==0 && sensorVal2==0 && sensorVal3==1) 
+  {
+    Serial.println("scenario 2");
+    my_servo(left); 
+    my_motor(slow_back);
+    delay(500);
+    my_servo(right);
+    my_motor(slow_forward);
+    delay(500);
+    my_servo(middle);
+  }
+  //scenario 3 stuck in a tunnel.. reverse a bunch and turn right
+  if(sensorVal1==0 && sensorVal2==1 && sensorVal3==0) 
+  {
+    Serial.println("scenario 3");
+    my_servo(middle); 
+    my_motor(slow_back);
+    delay(1000);
+    my_servo(right);
+    my_motor(slow_forward);
+    delay(500);
+    my_servo(middle);
+  }
+  //scenario 4 just left sensor
+  if(sensorVal1==0 && sensorVal2==1 && sensorVal3==1) 
+  {
+    Serial.println("scenario 4");
+    my_servo(right); 
+    my_motor(slow_back);
+    delay(500);
+    my_servo(middle);
+    my_motor(slow_forward);
+    delay(500);
+    my_servo(left);
+    my_motor(slow_forward);
+    delay(500);
+    my_servo(middle);
+  }
+ //scenario 5 reverse and turn left
+  if(sensorVal1==1 && sensorVal2==0 && sensorVal3==0) 
+  {
+    Serial.println("scenario 5");
+    my_servo(right); 
+    my_motor(slow_back);
+    delay(500);
+    my_servo(left);
+    my_motor(slow_forward);
+    delay(500);
+    my_servo(middle);
+  }
+  //scenario 6 reverse and turn right
+  if(sensorVal1==1 && sensorVal2==0 && sensorVal3==1) 
+  {
+    Serial.println("scenario 6");
+    my_servo(left); 
+    my_motor(slow_back);
+    delay(500);
+    my_servo(right);
+    my_motor(slow_forward);
+    delay(500);
+    my_servo(middle);
+  }
+  //scenario 7 just right sensor
+  if(sensorVal1==1 && sensorVal2==1 && sensorVal3==0) 
+  {
+    Serial.println("scenario 7");
+    my_servo(left); 
+    my_motor(slow_back);
+    delay(500);
+    my_servo(middle);
+    my_motor(slow_forward);
+    delay(500);
+    my_servo(right);
+    my_motor(slow_forward);d
+    delay(500);
+    my_servo(middle);
+  }
+  //scenario 8 continue as normal
+if(sensorVal1==0 && sensorVal2==0 && sensorVal3==0) 
+  {
+    Serial.println("scenario 8");
+    return;
+  }
 }
 
 void ir_setup()
