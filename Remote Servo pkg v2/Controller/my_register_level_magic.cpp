@@ -5,7 +5,10 @@
 
 volatile long int servo_ticks = 3000;   //Global variable used to set OCR1A
 volatile long int motor_ticks = 6000;   //Global variable used to set OCR1B and TCNT1
+volatile int TCNT1_change_value = 31535;
 unsigned char SREG_BACKUP;
+
+
 
 void my_setup()
 {
@@ -53,7 +56,7 @@ void my_motor(int power)
 {
   SREG_BACKUP = SREG;
   cli();  
-  motor_ticks = (power*20)+3000;  //power is an integer, so there should be no issues with non-integer types appearing
+  motor_ticks = (power*-20)+3000;  //power is an integer, so there should be no issues with non-integer types appearing
   SREG = SREG_BACKUP;
   //Designed to ensure 100% is actually 50% max power from motor
 }
@@ -69,10 +72,9 @@ void my_servo(int angle)
   {
     angle = -30;
   }
-
   SREG_BACKUP = SREG;
   cli();
-  servo_ticks = (angle*22) + 3000;
+  servo_ticks = (-1*angle*22) + 3000;
   SREG = SREG_BACKUP;
 }
 
@@ -84,21 +86,18 @@ ISR(TIMER1_COMPA_vect)
 
 ISR(TIMER1_COMPB_vect)
 {
-  PORTB &= ~(BIT(2));                     //Ending my motor signal
+  PORTB &= ~(BIT(2)); //Ending my motor signal
   
   SREG_BACKUP = SREG;
   cli();
-  TCNT1 = 65535 - (40000 - motor_ticks);  //Ensuring my overflow interrupt occurs at 20ms after the servo pulse
+  TCNT1 = TCNT1_change_value;  //Ensuring my overflow interrupt occurs at 20ms after the servo pulse
   SREG = SREG_BACKUP;
 }
 
 ISR(TIMER1_OVF_vect)
 {
   PORTB |= BIT(1);      //Starting my signal to the servo
-  
-  SREG_BACKUP = SREG;
-  cli();
-  OCR1A = servo_ticks;  //Setting my compare timers according to new commands. May want to do better
-  OCR1B = motor_ticks;  //ATOMIC ACCESS
-  SREG = SREG_BACKUP;
+  OCR1A = servo_ticks;
+  OCR1B = servo_ticks + motor_ticks;
+  TCNT1_change_value = 65535 - (40000 - OCR1B);
 }
