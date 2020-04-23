@@ -72,7 +72,7 @@ void my_servo(int angle)
 
   SREG_BACKUP = SREG;
   cli();
-  servo_ticks = (angle*22) - 3000;
+  servo_ticks = (angle*22) + 3000;
   SREG = SREG_BACKUP;
 }
 
