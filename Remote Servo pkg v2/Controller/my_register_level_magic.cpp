@@ -1,3 +1,6 @@
+//Pin 9 is to the servo
+//Pin 10 is to the motor
+
 #include "my_register_level_magic.h"
 #include "Arduino.h"
 #include "avr/io.h"
@@ -54,6 +57,15 @@ void my_setup()
 
 void my_motor(int power)
 {
+  //Making sure motor doesn't go over 100%
+  if(power > 100)
+  {
+    power = 100;
+  }
+  else if(power < -100)
+  {
+    power = -100;
+  }
   SREG_BACKUP = SREG;
   cli();  
   motor_ticks = (power*-20)+3000;  //power is an integer, so there should be no issues with non-integer types appearing
