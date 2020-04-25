@@ -27,6 +27,10 @@ void setup()
   radio.startListening(); //Set module as receiver
   
   sei();
+
+  my_motor(0);
+  my_servo(0);
+  delay(5000);
 }
 
 void loop()
@@ -51,6 +55,14 @@ void loop()
   power = (int)(q[2]*0.1);
   
   //Setting my global variable to read the number of clock ticks until my next compare match 
+  if(power>13);
+  {
+    power=13;
+  }
+  if(power<-13)
+  {
+    power=-13;
+  }
   my_servo(angle);
   my_motor(power);
 

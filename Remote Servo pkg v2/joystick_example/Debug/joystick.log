@@ -1,8 +1,8 @@
-﻿Build started 26/03/2020 6:26:11 PM.
-     1>Project "C:\Users\Admin\Documents\GitHub\Mech471\Remote Servo pkg\joystick_example\joystick.vcxproj" on node 2 (Build target(s)).
+﻿Build started 25/04/2020 6:18:31 PM.
+     1>Project "C:\Users\Admin\Documents\GitHub\Mech471\Remote Servo pkg v2\joystick_example\joystick.vcxproj" on node 2 (Build target(s)).
      1>Link:
-         joystick.vcxproj -> C:\Users\Admin\Documents\GitHub\Mech471\Remote Servo pkg\joystick_example\.\Debug\Joystick.exe
-     1>Done Building Project "C:\Users\Admin\Documents\GitHub\Mech471\Remote Servo pkg\joystick_example\joystick.vcxproj" (Build target(s)).
+         joystick.vcxproj -> C:\Users\Admin\Documents\GitHub\Mech471\Remote Servo pkg v2\joystick_example\.\Debug\Joystick.exe
+     1>Done Building Project "C:\Users\Admin\Documents\GitHub\Mech471\Remote Servo pkg v2\joystick_example\joystick.vcxproj" (Build target(s)).
 
 Build succeeded.
 
