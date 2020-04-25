@@ -1,11 +1,11 @@
 //Code based highly on code written by Dr. Brandon Gordon
 //Code written by: Tyler Montcalm
-#include "PID_speed.h"
+#include "PID_traction.h"
 #include "definitions.h"
 
 //function definitions
 
-float pid_speed_calculate(float percent_speed)
+float pid_traction_calculate(float percent_speed)
 {
  
   float t,dt;
@@ -13,7 +13,8 @@ float pid_speed_calculate(float percent_speed)
   float e,ed,z,ei_max;
   float back_v_speed;
   bool forward;
-  float desired_speed_v=0;
+  float back_speed_v=0;
+  float front_speed_v=0;
   
   static float ep=0.0; // previous error
   static float tp =0.0; //previous time
@@ -24,25 +25,28 @@ float pid_speed_calculate(float percent_speed)
   
   // here we read the sensors
   
-  back_v_speed=analogRead(A2);
+  back_speed_v=analogRead(A2); // calculates rear voltage
+  front_speed_v=((analogRead(A1)+analogRead(A0)/2); // calculates front voltage as an average
 
+
+
+  
+  //MISSING HERE IS THE GEAR RATIO THAT WOULD ADJUST THESE TWO SO THAT THEY CAN BE COMPARABLE
+
+
+
+
+  
   //forward or reverse bool check
   if(back_v_speed<3.30)
   {
     forward=false;
   }
   
-  if(percent_speed>=0.0) // calculates a desired voltage for the generator based on percent speed
-  {
-   desired_speed_v=3.3+(percent_speed*.017); 
-  }
-  else
-  {
-   desired_speed_v=abs(percent_speed)*.033;
-  }
+  
   
   //desired error is zero and therefore rear should reduce until it matches within error margin of front 
-  e=desired_speed-back_v_speed; // calculating error
+  e=back_speed_v-front_speed_v; // calculating error between front and back.
   
   // calculating derivative with finite difference
   dt=t-tp; // time derivative
@@ -81,7 +85,7 @@ float pid_speed_calculate(float percent_speed)
   
   //PID calculation
 
-  u=kp_speed*e+ki_speed*ei+kd_speed*ed;
+  u=kp_traction*e+ki_traction*ei+kd_traction*ed;
 
   //make sure the range is respected:
 

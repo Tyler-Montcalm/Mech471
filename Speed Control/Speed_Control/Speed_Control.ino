@@ -1,12 +1,15 @@
+//Code written by: Tyler Montcalm
 #include "PID_speed.h"
 #include "definitions.h"
 float percent_speed=50;
-
+float my_motor_speed=0;
+float U_speed=0;
 void loop() 
 {
- // here we want to use the PID_speed function in order to 
- //iterate through motor write and checking to see if its good as fast as possible
- // U is in terms of voltage to write we must first map this to the motor controller as well
- pid_speed_calculate(percent_speed);
- 
+ // First we write an approximately close motor speed, 80 percent would be 80 percent of 1000, then we iterate PID until we hit desired wheel speed
+ // this allows for the PID to work on any surface or incline it essentially adds speed to the ESC until the approximate motor voltage is read
+ my_motor_speed=(10*percent_speed)+U_speed;
+ my_motor(my_motor_speed);
+ U_speed=pid_speed_calculate(percent_speed); // this will return a U
+  
 }
