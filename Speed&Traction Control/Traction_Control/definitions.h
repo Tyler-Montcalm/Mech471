@@ -6,3 +6,4 @@ float kd_speed=0;
 float kp_traction=1;
 float ki_traction=0;
 float kd_traction=0;
+float V_batt=5.0;
