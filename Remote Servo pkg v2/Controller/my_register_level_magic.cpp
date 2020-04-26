@@ -1,5 +1,5 @@
-//Pin 9 is to the servo
-//Pin 10 is to the motor
+//Pin 9 goes to Servo
+//Pin 10 goes to Motor
 
 #include "my_register_level_magic.h"
 #include "Arduino.h"
@@ -68,9 +68,9 @@ void my_motor(int power)
   }
   SREG_BACKUP = SREG;
   cli();  
-  motor_ticks = (power*-20)+3000;  //power is an integer, so there should be no issues with non-integer types appearing
+  motor_ticks = (int)(power*-2.6)+3000;  //moter_ticks is an integer, so I need to ensure that this stays an integer.
   SREG = SREG_BACKUP;
-  //Designed to ensure 100% is actually 50% max power from motor
+  //Designed so that 100% is max the ESC will allow
 }
 
 void my_servo(int angle)

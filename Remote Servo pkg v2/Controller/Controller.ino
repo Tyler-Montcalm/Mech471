@@ -42,28 +42,30 @@ void loop()
   q = (long int *)data_buffer;   //Setting pointer to start of buffer
   int angle;
   int power;
+  static int count = 0;           //To guard against radio loss
   
   //Read the data if available in buffer
   if (radio.available())
   {
     radio.read(&data_buffer, data_length);
+    //Determining the angle and motor power from my data buffer.
+    //NOTE: this seems silly now, but I will be changing this value with corrections from my controllers
+    angle = (int)(q[0]*0.09);
+    power = (int)(q[2]*0.1);
+    
+    //Setting my global variable to read the number of clock ticks until my next compare match 
+    my_servo(angle);
+    my_motor(power);
+  }
+  else if(count > 100)
+  {
+    my_motor(0);
+    my_servo(0);
+  }
+  else
+  {
+    count++;
   }
 
-  //Determining the angle and motor power from my data buffer.
-  //NOTE: this seems silly now, but I will be changing this value with corrections from my controllers
-  angle = (int)(q[0]*0.09);
-  power = (int)(q[2]*0.1);
-  
-  //Setting my global variable to read the number of clock ticks until my next compare match 
-  if(power>13);
-  {
-    power=13;
-  }
-  if(power<-13)
-  {
-    power=-13;
-  }
-  my_servo(angle);
-  my_motor(power);
 
 }
