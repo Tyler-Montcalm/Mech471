@@ -1,0 +1,9 @@
+﻿Build started 26/04/2020 12:58:50 PM.
+     1>Project "D:\Documents\University\MECH 471 Microcontrollers\Code\joystick_example\joystick.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         joystick.vcxproj -> D:\Documents\University\MECH 471 Microcontrollers\Code\joystick_example\.\Debug\Joystick.exe
+     1>Done Building Project "D:\Documents\University\MECH 471 Microcontrollers\Code\joystick_example\joystick.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.03
