@@ -49,6 +49,12 @@ int main()
 		serial_send(data_out, size, h2);
 
 		Sleep(10);
+		//The Arduino is Serial.printing() many things AFTER it receives the start of a message. Thus, it doesn't send to a buffer that has multiple elements.
+		while (serial_available(h2) > 0)
+		{
+		serial_recv(buffer, 1, h2);
+		cout <<buffer[0];
+		}
 	}
 
 	close_serial(h2);

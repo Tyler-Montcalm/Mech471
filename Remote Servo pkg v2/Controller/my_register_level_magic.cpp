@@ -1,4 +1,4 @@
-//Pin 9 goes to Servo
+my_register_level//Pin 9 goes to Servo
 //Pin 10 goes to Motor
 
 #include "my_register_level_magic.h"
