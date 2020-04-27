@@ -13,10 +13,10 @@ void setup() {
 
 void loop() {
   const int NMAX = 64;
-  static char data_buffer[NMAX]; //Does "buffer" have a specific meaning?
-  int length = 14;          //I expect to recieve 3 ints of 4 bytes each, therefore my pointers need to be setup as long ints.
-  long int *q;              //Making a pointer to navigate my buffer
-  //q = (long int *)data_buffer;   //Setting pointer to start of buffer
+  static char data_buffer[NMAX];  //Does "buffer" have a specific meaning?
+  int length = 26;                //I expect to recieve 2x 3 ints of 4 bytes each, plus 2 chars. My pointers need to be setup as long ints.
+  long int *q;                    //Making a pointer to navigate my buffer
+  //q = (long int *)data_buffer;  //Setting pointer to start of buffer
   char search_char = '1';
   bool found = false;
   int index = 0;
@@ -26,17 +26,14 @@ void loop() {
   //long int power = 0;
   //long int angle = 0;
 
-  data_buffer[0] = '1';
-
-  while(data_buffer[0] != '\n')
-  {Serial.readBytes(data_buffer, 1);}
-  
+  found = false;
+  index = 0;
   while(Serial.available() < length) i++; 
   cli();
-  n = Serial.readBytes(data_buffer, length); //??Symultaneously reads bits from serial buffer to "buffer" AND returns #bytes in serial buffer
+  n = Serial.readBytes(data_buffer, length); //Symultaneously reads bits from serial buffer to "buffer" AND returns #bytes in serial buffer
   sei();
 
-  while((index < length)&&(found == false))
+  while(!found/*(index < length)&&(found == false)*/)
   {
     search_char = data_buffer[index];
     if(search_char != '\n')

@@ -29,7 +29,7 @@ void loop()
 {
   const int NMAX = 64;
   static char data_buffer[NMAX];  //Does "buffer" have a specific meaning?
-  int data_length = 12;           //I expect to recieve 3 ints of 4 bytes each, therefore my pointers need to be setup as long ints.
+  int data_length = 26;           //I expect to recieve 2x 3 ints of 4 bytes each and 2 chars. My pointers need to be setup as long ints.
   int i = 0;                      //A do-nothing variable. Forces blocking. Could be useful for determining an error since I send serially continuously.
   int n = 0;                      //A record of the number of bytes received
 

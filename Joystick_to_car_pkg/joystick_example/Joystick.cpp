@@ -66,12 +66,6 @@ int APIENTRY WinMain( HINSTANCE hInst, HINSTANCE, LPSTR, int )
 	q[0] = 0;
 	q[1] = 0;
 
-	//TB
-	char *p;
-	p = p_smem;
-	p[(5 * sizeof(int))] = '\n';
-	p[(5 * sizeof(int)) + 1] = '\n';
-
 	/////////////////
 
     // Display the main dialog box.

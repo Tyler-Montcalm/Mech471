@@ -1,9 +1,21 @@
-﻿Build started 26/04/2020 12:58:50 PM.
-     1>Project "D:\Documents\University\MECH 471 Microcontrollers\Code\joystick_example\joystick.vcxproj" on node 2 (Build target(s)).
-     1>Link:
-         joystick.vcxproj -> D:\Documents\University\MECH 471 Microcontrollers\Code\joystick_example\.\Debug\Joystick.exe
-     1>Done Building Project "D:\Documents\University\MECH 471 Microcontrollers\Code\joystick_example\joystick.vcxproj" (Build target(s)).
+﻿Build started 27/04/2020 11:39:21 AM.
+     1>Project "C:\Users\Admin\Documents\GitHub\Mech471\Joystick_to_car_pkg\joystick_example\joystick.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /Gm- /EHsc /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Debug/" /Fd".\Debug/vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Joystick.cpp shared_memory.cpp
+         Joystick.cpp
+         shared_memory.cpp
+         Generating Code...
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /D _DEBUG /l"0x0409" /nologo /fo".\Debug\Joystick.res" Joystick.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Debug/joystick.exe" /INCREMENTAL /NOLOGO dxguid.lib dxerr9.lib dinput8.lib comctl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:".\Debug\Joystick.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:".\Debug/joystick.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\Debug\Joystick.lib" /MACHINE:X86 /SAFESEH:NO /MACHINE:I386 /IGNORE:4089 .\Debug\Joystick.res
+         .\Debug/Joystick.obj
+         .\Debug/shared_memory.obj
+         joystick.vcxproj -> C:\Users\Admin\Documents\GitHub\Mech471\Joystick_to_car_pkg\joystick_example\.\Debug\Joystick.exe
+       Manifest:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\mt.exe /nologo /verbose /out:"C:\Users\Admin\Documents\GitHub\Mech471\Joystick_to_car_pkg\joystick_example\.\Debug\Joystick.exe.manifest" /manifest .\Debug\Joystick.exe.intermediate.manifest
+     1>Done Building Project "C:\Users\Admin\Documents\GitHub\Mech471\Joystick_to_car_pkg\joystick_example\joystick.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.03
+Time Elapsed 00:00:02.76
