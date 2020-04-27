@@ -47,7 +47,7 @@ void loop() {
   while(Serial.available() < data_in_length) i++; 
   cli();
   n = Serial.readBytes(data_in, data_in_length); //Symultaneously reads bits from serial buffer to "buffer" AND returns #bytes in serial buffer
-  sei();
+  
 
   while(!found)
   {
@@ -64,16 +64,14 @@ void loop() {
     }
   }
 
-  count++;
-
-  if(count<100)
-  {  
+  radio.write(data_out, data_out_length);       //Sends my actual message
+  
   Serial.print(q[0]);
   Serial.print("\t");
   Serial.print(q[2]);
   Serial.print("\n");
-  }
-
-  radio.write(data_out, data_out_length);       //Sends my actual message
   
+
+  
+  sei();
 }

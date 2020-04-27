@@ -35,12 +35,12 @@ void setup()
 
 void loop()
 {
-  const int NMAX = 64;
+  static const int NMAX = 64;
   static char data_buffer[NMAX];  //Does "buffer" have a specific meaning?
-  int data_length = 12;           //I expect to recieve 3 ints of 4 bytes each, therefore my pointers need to be setup as long ints.
-  long int *q;                    //Making a pointer to navigate my buffer
+  static int data_length = 12;           //I expect to recieve 3 ints of 4 bytes each, therefore my pointers need to be setup as long ints.
+  static long int *q;                    //Making a pointer to navigate my buffer
   q = (long int *)data_buffer;    //Setting pointer to start of buffer
-  int angle;                      //A number between -30 and 30 (-30 being full left, 30 being full right, 0 being straight). Represents angle in degrees. Does not go to 90deg
+  static int angle;                      //A number between -30 and 30 (-30 being full left, 30 being full right, 0 being straight). Represents angle in degrees. Does not go to 90deg
                                   //because the steering mechanism can't handle that.
   int power;                      //A number between -100 to 100 (100 being full forward, -100 being full reverse, 0 being no power). Represents the power demand in % power the motor can deliver.
   static int count = 0;           //To guard against radio loss
@@ -57,7 +57,7 @@ void loop()
   //{
     cli();
     radio.read(&data_buffer, data_length);
-    sei();
+
     //Syncing that data is necessary. This is done by sending the message twice over (see the visual studio code) as that guarantees
     //that the entire message will be found if the start marker is found.
     //To find the message, "search_char" checks each character of "data_buffer" until it finds the start marker (newline).
@@ -92,7 +92,10 @@ void loop()
     Serial.print(q[0]);
     Serial.print("\t");
     Serial.print(q[2]);
+    sei();
 
+    delay(50);
+    
     my_servo(angle);
     my_motor(power);
 
