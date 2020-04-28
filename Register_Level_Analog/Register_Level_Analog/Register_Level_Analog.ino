@@ -5,15 +5,15 @@
 #include <avr/interrupt.h>
 
 #define BIT(a) (1 << (a))
-
+float adc_analog_read(int analog_port);
 void setup() 
 {
   Serial.begin(115200);
   cli(); // stop all interrupt functions
 
-  //Select ADC Channel by uncommenting.
+  //Select ADC Channel by uncommenting. be careful about changing channel during conversion process
   //uncomment as needed for A0 to A5
-  ADMUX =0;    //A0 still dont know yet if this ones right
+  ADMUX =0;    //Initially set mux register to zero A0
   //ADMUX |= BIT(MUX0); //A1
   //ADMUX |= BIT(MUX1); //A2
   //ADMUX |= BIT(MUX0) | BIT(MUX1); //A3
@@ -21,13 +21,57 @@ void setup()
   //ADMUX |= BIT(MUX0) | BIT(MUX2); //A5
   ADMUX |= BIT(REFS0); // sets your ADC reference to 5V cause default is Aref pin
   ADCSRA=0; // sets your ADC Control and Status Register A to zero
-  ADCSRA |=Bit(ADEN); //ADC enable on status register A
+  ADCSRA |= BIT(ADEN); //ADC enable on status register A
   //use a 128 prescaler (slowest)
   ADCSRA |= BIT(ADPS0) | BIT(ADPS1) | BIT(ADPS2);
   ADCSRA |= BIT(ADSC); // start ADC conversion
+  //BIT(ADSC) will be 1 whenever a conversion is happening and be 0 when complete to read a bit you and it
+  sei();
+  while(1)
+  {
+   adc_analog_read(2); 
+  }
 }
 
-void loop() 
+float adc_analog_read(int analog_port)
 {
-
+  
+  volatile unsigned int i=0;
+  static float dt=0.0,t1,t2,Vin,Vref;
+  volatile int adc1;
+  t1=micros(); // start time for the conversion
+  if(analog_port=0)
+  {
+   ADMUX =0;
+   while( ADCSRA & BIT(ADSC))i++;
+   adc1=ADC;
+   t2=micros();
+   dt=t2-t1;
+   Vref=5.0;
+   Vin=adc1/1023.0*Vref;
+   return Vin;
+  }
+  if(analog_port=1)
+  {
+   ADMUX |= BIT(MUX0);
+   while( ADCSRA & BIT(ADSC))i++;
+   adc1=ADC;
+   t2=micros();
+   dt=t2-t1;
+   Vref=5.0;
+   Vin=adc1/1023.0*Vref;
+   return Vin;
+  }
+  if(analog_port=2)
+  {
+   ADMUX |= BIT(MUX1);
+   while( ADCSRA & BIT(ADSC))i++;
+   adc1=ADC;
+   t2=micros();
+   dt=t2-t1;
+   Vref=5.0;
+   Vin=adc1/1023.0*Vref;
+   return Vin;
+  }
+  
 }
