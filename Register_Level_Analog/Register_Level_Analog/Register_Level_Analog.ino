@@ -35,8 +35,8 @@ void setup()
 
 void loop()
 { 
-  adc_analog_avg(0);
-   delay(300);
+  Serial.println(adc_analog_avg(1));
+   //delay(300);
 }
 float adc_analog_read(int analog_port)
 {
