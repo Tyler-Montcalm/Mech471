@@ -27,51 +27,57 @@ void setup()
   ADCSRA |= BIT(ADSC); // start ADC conversion
   //BIT(ADSC) will be 1 whenever a conversion is happening and be 0 when complete to read a bit you and it
   sei();
-  while(1)
-  {
-   adc_analog_read(2); 
-  }
+
 }
 
+void loop()
+{ 
+   Serial.println(adc_analog_read(2));
+   delay(300);
+}
 float adc_analog_read(int analog_port)
 {
-  
   volatile unsigned int i=0;
   static float dt=0.0,t1,t2,Vin,Vref;
   volatile int adc1;
   t1=micros(); // start time for the conversion
-  if(analog_port=0)
+  if(analog_port==0)
   {
-   ADMUX =0;
-   while( ADCSRA & BIT(ADSC))i++;
-   adc1=ADC;
-   t2=micros();
-   dt=t2-t1;
-   Vref=5.0;
-   Vin=adc1/1023.0*Vref;
-   return Vin;
+  ADCSRA |= BIT(ADSC);
+  while( ADCSRA & BIT(ADSC) ) i++;
+  adc1 = ADC;
+  t2 = micros(); // ADC conversion completion time
+  dt = t2 - t1; // time for ADC conversion
+  // ADC = Vin*1023/Vref
+  Vref = 5.0;
+  Vin  = adc1/1023.0*Vref;
+  return Vin;
   }
-  if(analog_port=1)
+  if(analog_port==1)
   {
-   ADMUX |= BIT(MUX0);
-   while( ADCSRA & BIT(ADSC))i++;
-   adc1=ADC;
-   t2=micros();
-   dt=t2-t1;
-   Vref=5.0;
-   Vin=adc1/1023.0*Vref;
-   return Vin;
+  ADMUX |= BIT(MUX0);
+  ADCSRA |= BIT(ADSC);
+  while( ADCSRA & BIT(ADSC) ) i++;
+  adc1 = ADC;
+  t2 = micros(); // ADC conversion completion time
+  dt = t2 - t1; // time for ADC conversion
+  // ADC = Vin*1023/Vref
+  Vref = 5.0;
+  Vin  = adc1/1023.0*Vref;
+  return Vin;
   }
-  if(analog_port=2)
+  if(analog_port==2)
   {
-   ADMUX |= BIT(MUX1);
-   while( ADCSRA & BIT(ADSC))i++;
-   adc1=ADC;
-   t2=micros();
-   dt=t2-t1;
-   Vref=5.0;
-   Vin=adc1/1023.0*Vref;
-   return Vin;
+  ADMUX |= BIT(MUX1);
+  ADCSRA |= BIT(ADSC);
+  while( ADCSRA & BIT(ADSC) ) i++;
+  adc1 = ADC;
+  t2 = micros(); // ADC conversion completion time
+  dt = t2 - t1; // time for ADC conversion
+  // ADC = Vin*1023/Vref
+  Vref = 5.0;
+  Vin  = adc1/1023.0*Vref;
+  return Vin;
   }
-  
+ 
 }
