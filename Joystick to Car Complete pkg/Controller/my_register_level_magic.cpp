@@ -1,3 +1,9 @@
+//Written by: Thomas Savage (40016675)
+//Written for the course MECH 471
+//Data of final modification: 28th April 2020
+
+//Does the behind-the-scenes register-level work to command my motor and servo.
+
 //Pin 9 goes to Servo
 //Pin 10 goes to Motor
 
@@ -6,15 +12,15 @@
 #include "avr/io.h"
 #define BIT(a) (1 << (a)) //Allows easy bit manipulation and comparison (i.e. I can now switch bits on and off).
 
-volatile long int servo_ticks = 3000;   //Global variable used to set OCR1A
-volatile long int motor_ticks = 6000;   //Global variable used to set OCR1B and TCNT1
-volatile int TCNT1_change_value = 31535;
-unsigned char SREG_BACKUP;
+volatile long int servo_ticks = 3000;     //Global variable used to set OCR1A. Set to make servo stop (safe if no signal received or function call)
+volatile long int motor_ticks = 3000;     //Global variable used to set OCR1B and TCNT1. Set to make motor stop (safe if no signal received or function call)
+volatile int TCNT1_change_value = 31535;  //Adjusts my timer to ensure one signal (pulse and off period) measure 20ms
+unsigned char SREG_BACKUP;                //Used to ensure I properly restore my interrupt state
 
-
-
+//This sets up the timer registers, output pins, and interrupts.
 void my_setup()
 {
+  SREG_BACKUP = SREG; //Checking my current state of interrupt enable/disable
   cli();
 
   /*************DIGITAL PIN SETUP*************/
@@ -48,16 +54,18 @@ void my_setup()
   //Clearing interrupt flags
   TIFR1 |= BIT(OCF1B) | BIT(OCF1A) | BIT(TOV1);
 
-  //Setting my timer to 0
+  //Setting my timer to 0 so interrupts don't start too soon.
   TCNT1 = 0;
 
-  sei();
+  SREG = SREG_BACKUP; //Resets my interrupt enable/disable to what it was in my main program.
 
 }
 
+
+//This receives the command for how much power must be delivered to my motor.
 void my_motor(int power)
 {
-  //Making sure motor doesn't go over 100%
+  //Making sure motor doesn't go over 100% forward or reverse.
   if(power > 100)
   {
     power = 100;
@@ -66,13 +74,15 @@ void my_motor(int power)
   {
     power = -100;
   }
+  //Provides atomic access since a 2 byte value.
   SREG_BACKUP = SREG;
   cli();  
   motor_ticks = (int)(power*2.6)+3000;  //moter_ticks is an integer, so I need to ensure that this stays an integer.
   SREG = SREG_BACKUP;
-  //Designed so that 100% is max the ESC will allow
+  //Designed so that 100% is max the ESC will allow (which isn't 100% total motor power).
 }
 
+//Similar to my_motor()
 void my_servo(int angle)
 {
   //Making sure servo doesn't turn beyond 30 deg either way (mechanism can't handle it)
@@ -84,12 +94,15 @@ void my_servo(int angle)
   {
     angle = -30;
   }
+  //Provides atomic access since a 2 byte value
   SREG_BACKUP = SREG;
   cli();
   servo_ticks = (1*angle*22) + 3000;
   SREG = SREG_BACKUP;
 }
 
+
+//For details on how this works, please see the report.
 ISR(TIMER1_COMPA_vect)
 {
   PORTB &= ~(BIT(1)); //Ending my servo signal

@@ -1,3 +1,14 @@
+//Written by: Thomas Savage (40016675)
+//Written for MECH 471
+//Last modified: 28th April 2020
+
+//This code collects the data from shared memory with the modified "joystick" function.
+//The actual message being sent is two of the normal messages plus two starting markers.
+//This ensures that if I find the starting marker in "Transmitter" I am guaranteed to have the complete message.
+//Note: The data going into shared memory was modified by me by tweaking "joystick" starting on line 373. I like using the two front
+//variable "buttons" (LT and RT on an Xbox controller) for throttle control. I didn't change the layout of shared memory, so I have 
+//a piece of data in my signal that doesn't do anything for the moment (q[1]) while q[0] and q[2] are used.
+
 #include <cstdio>
 #include <cstdlib>
 #include <cmath>
