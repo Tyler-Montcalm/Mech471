@@ -68,7 +68,7 @@ void my_motor(int power)
   }
   SREG_BACKUP = SREG;
   cli();  
-  motor_ticks = (int)(power*-2.6)+3000;  //moter_ticks is an integer, so I need to ensure that this stays an integer.
+  motor_ticks = (int)(power*2.6)+3000;  //moter_ticks is an integer, so I need to ensure that this stays an integer.
   SREG = SREG_BACKUP;
   //Designed so that 100% is max the ESC will allow
 }
@@ -86,7 +86,7 @@ void my_servo(int angle)
   }
   SREG_BACKUP = SREG;
   cli();
-  servo_ticks = (-1*angle*22) + 3000;
+  servo_ticks = (1*angle*22) + 3000;
   SREG = SREG_BACKUP;
 }
 

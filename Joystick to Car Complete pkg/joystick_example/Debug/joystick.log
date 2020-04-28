@@ -1,4 +1,4 @@
-﻿Build started 27/04/2020 6:39:39 PM.
+﻿Build started 28/04/2020 12:27:22 PM.
      1>Project "C:\Users\Admin\Documents\GitHub\Mech471\Joystick to Car Complete pkg\joystick_example\joystick.vcxproj" on node 2 (Build target(s)).
      1>Link:
          joystick.vcxproj -> C:\Users\Admin\Documents\GitHub\Mech471\Joystick to Car Complete pkg\joystick_example\.\Debug\Joystick.exe
@@ -6,4 +6,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.04
+Time Elapsed 00:00:00.06

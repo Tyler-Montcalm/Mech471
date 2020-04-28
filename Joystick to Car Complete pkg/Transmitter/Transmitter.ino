@@ -71,7 +71,6 @@ void loop() {
   Serial.print(q[2]);
   Serial.print("\n");
   
-
-  
   sei();
+
 }
