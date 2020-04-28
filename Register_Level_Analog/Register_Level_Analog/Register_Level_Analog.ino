@@ -84,6 +84,47 @@ float adc_analog_read(int analog_port)
   Vin  = adc1/1023.0*Vref;
   return Vin;
   }
+  if(analog_port==3)
+  {
+  ADMUX |= BIT(MUX0) | BIT(MUX1); 
+  ADCSRA |= BIT(ADSC);
+  while( ADCSRA & BIT(ADSC) ) i++;
+  adc1 = ADC;
+  // ADC = Vin*1023/Vref
+  Vref = 5.0;
+  Vin  = adc1/1023.0*Vref;
+  t2 = micros();// ADC conversion completion time
+  dt = t2 - t1; // time for ADC conversion
+ // Serial.print("time to complete analog_read_register = ");
+  //Serial.println(dt);
+  return Vin;
+  }
+  if(analog_port==4)
+  {
+  ADMUX |= BIT(MUX2);
+  ADCSRA |= BIT(ADSC);
+  while( ADCSRA & BIT(ADSC) ) i++;
+  adc1 = ADC;
+  t2 = micros(); // ADC conversion completion time
+  dt = t2 - t1; // time for ADC conversion
+  // ADC = Vin*1023/Vref
+  Vref = 5.0;
+  Vin  = adc1/1023.0*Vref;
+  return Vin;
+  }
+  if(analog_port==5)
+  {
+  ADMUX |= BIT(MUX0) | BIT(MUX2);
+  ADCSRA |= BIT(ADSC);
+  while( ADCSRA & BIT(ADSC) ) i++;
+  adc1 = ADC;
+  t2 = micros(); // ADC conversion completion time
+  dt = t2 - t1; // time for ADC conversion
+  // ADC = Vin*1023/Vref
+  Vref = 5.0;
+  Vin  = adc1/1023.0*Vref;
+  return Vin;
+  }
  
 }
 
