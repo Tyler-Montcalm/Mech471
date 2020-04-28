@@ -1,4 +1,5 @@
 //Code based on Code provided by Dr. Brandon Gordon
+//Code written by: Tyler Montcalm
 #include <Arduino.h>
 #include <math.h>
 #include <avr/io.h>
@@ -6,6 +7,8 @@
 
 #define BIT(a) (1 << (a))
 float adc_analog_read(int analog_port);
+float v_a0,v_a1,v_a2;
+float adc_analog_avg(int analog_port);
 void setup() 
 {
   Serial.begin(115200);
@@ -32,7 +35,7 @@ void setup()
 
 void loop()
 { 
-   Serial.println(adc_analog_read(2));
+  adc_analog_avg(0);
    delay(300);
 }
 float adc_analog_read(int analog_port)
@@ -42,15 +45,17 @@ float adc_analog_read(int analog_port)
   volatile int adc1;
   t1=micros(); // start time for the conversion
   if(analog_port==0)
-  {
+  {  
   ADCSRA |= BIT(ADSC);
   while( ADCSRA & BIT(ADSC) ) i++;
   adc1 = ADC;
-  t2 = micros(); // ADC conversion completion time
-  dt = t2 - t1; // time for ADC conversion
   // ADC = Vin*1023/Vref
   Vref = 5.0;
   Vin  = adc1/1023.0*Vref;
+  t2 = micros();// ADC conversion completion time
+  dt = t2 - t1; // time for ADC conversion
+ // Serial.print("time to complete analog_read_register = ");
+  //Serial.println(dt);
   return Vin;
   }
   if(analog_port==1)
@@ -80,4 +85,16 @@ float adc_analog_read(int analog_port)
   return Vin;
   }
  
+}
+
+float adc_analog_avg(int analog_port)
+{
+  for(int i=0; i<50; i++)
+  {
+    v_a0+=adc_analog_read(analog_port);
+  }
+  v_a0=v_a0/50;
+ // Serial.print("reading = ");
+   //Serial.println(v_a0);
+   return v_a0;
 }
