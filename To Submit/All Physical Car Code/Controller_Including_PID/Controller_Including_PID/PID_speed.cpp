@@ -58,7 +58,7 @@ float pid_speed_calculate(float percent_speed,float t0)
 
   if(ki_speed>0.0) 
   {
-    ei_max-0.14*V_batt/ki_speed;
+    ei_max=0.14*V_batt/ki_speed;
   }
   else
   {
