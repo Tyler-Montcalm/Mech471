@@ -1,0 +1,17 @@
+The following code is used for the physical car:
+
+-joystick_example: Modified version of prof's code (see report and "Joystick_to_Arduino" for details of modification).
+			Grabs data from Xbox controller and stores it in shared memory.
+-Joystick_to_Arduino: Takes code from shared memory and feeds it to "Transmitter" via serial communication.
+-Transmitter: Arduino code that processes data into complete, correct message (serial can get out of sync) and sends
+		via radio the message to the "Controller".
+Controller: The code used by the Arduino on the actual car.
+
+To know more about how these work, refer to the comments in the code (I put a lot of work into them) and the report.
+
+To run, follow this procedure:
+
+1. Have the Transmitter pluged into the computer.
+2. Have "Joystick_to_Arduino" and "joystick_example" running (with the DirectX dialog as the active window). You will see the
+	data from the joystick being printed back onto the command promt for "Joystick_to_Arduino".
+3. Power up the car and wait 5 seconds (the car is programmed to wait 5 seconds before listening for signals).
