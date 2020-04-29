@@ -27,7 +27,7 @@ float pid_speed_calculate(float percent_speed,float t0)
   back_v_speed=analogRead(A2);
 
   //forward or reverse bool check
-  if(back_v_speed<3.30)
+  if(back_v_speed<=3.30)
   {
     forward=false;
   }
